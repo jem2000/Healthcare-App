@@ -3,7 +3,7 @@ import pymongo
 import datetime
 
 client = pymongo.MongoClient(
-    "mongodb+srv://USERNAME:PASSWORD@cluster0.pkk8t.mongodb.net/CLIENTNAME?retryWrites=true&w=majority")
+    "")
 
 db = client["Test1"]
 col = db["Collection1"]
@@ -12,6 +12,23 @@ col = db["Collection1"]
 def login():
     print("Logging in")
     username = input("Please enter your username: ")
+    existing_name = col.find_one({'username': username})
+    if existing_name is None:
+        print("Cannot find a user with that user name, try creating a new account")
+        return False
+    password = input("Please enter your password: ")
+    existing_account = col.find_one({'username': username, 'password': password})
+    if existing_account is None:
+        incorrect_password = True
+        while incorrect_password:
+            password = input("Incorrect password, please try again or enter 'B' to go back: ")
+            if password == "B":
+                return False
+            existing_account = col.find_one({'username': username}, {'password': password})
+            if existing_account is not None:
+                incorrect_password = False
+    else:
+        return existing_account
 
 
 def create_user():
