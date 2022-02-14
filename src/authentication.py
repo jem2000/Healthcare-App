@@ -3,28 +3,28 @@ import pymongo
 import datetime
 
 client = pymongo.MongoClient(
-    "")
+    "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
 
 db = client["Test1"]
-col = db["Collection1"]
+users = db["Users"]
 
 
 def login():
     print("Logging in")
     username = input("Please enter your username: ")
-    existing_name = col.find_one({'username': username})
+    existing_name = users.find_one({'username': username})
     if existing_name is None:
         print("Cannot find a user with that user name, try creating a new account")
         return False
     password = input("Please enter your password: ")
-    existing_account = col.find_one({'username': username, 'password': password})
+    existing_account = users.find_one({'username': username, 'password': password})
     if existing_account is None:
         incorrect_password = True
         while incorrect_password:
             password = input("Incorrect password, please try again or enter 'B' to go back: ")
             if password == "B":
                 return False
-            existing_account = col.find_one({'username': username}, {'password': password})
+            existing_account = users.find_one({'username': username}, {'password': password})
             if existing_account is not None:
                 incorrect_password = False
     else:
@@ -34,12 +34,12 @@ def login():
 def create_user():
     print("Creating new user")
     username = input("Please enter your username: ")
-    existing_name = col.find_one({'username': username})
+    existing_name = users.find_one({'username': username})
     if existing_name is not None:
         valid = False
         while not valid:
             username = input("Name already taken, try a new name or enter 'B' to go back: ")
-            existing_name = col.find_one({'username': username})
+            existing_name = users.find_one({'username': username})
             if username == "B":
                 return False
             if existing_name is None:
@@ -78,9 +78,11 @@ def create_user():
         "username": username,
         "password": password,
         "credentials": credentials,
+        "devices": None,
+        "health_records": None,
         "account_creation_time": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
-    col.insert_one(user_info)
+    users.insert_one(user_info)
 
     return True

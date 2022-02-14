@@ -1,5 +1,6 @@
 import WConio2  # Only works on Windows!
 import authentication as auth
+import doctor_functions as doc
 
 
 def app_startup():
@@ -24,6 +25,7 @@ def home(user):
             valid = True
         elif role == "D":
             print("Accessing doctor menu")
+            doc.doctor_menu(user)
             valid = True
         elif role == "A":
             print("Accessing admin menu")
