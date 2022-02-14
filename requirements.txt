@@ -1,6 +1,5 @@
 WConio2
 mock
 bson
-bson.objectid
 pymongo
 datetime
