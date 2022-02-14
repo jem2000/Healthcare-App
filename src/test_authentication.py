@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 import authentication as auth
 
 client = pymongo.MongoClient(
-    "mongodb+srv://GitHub:GitHub@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
+    "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
 
 db = client["Test1"]
 col = db["Collection1"]
