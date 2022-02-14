@@ -1,7 +1,6 @@
 import unittest
 import mock
 import pymongo
-import datetime
 from bson.objectid import ObjectId
 
 import authentication as auth
@@ -22,7 +21,7 @@ mock_input.side_effect = [mock_username.return_value, mock_password.return_value
 
 class MyTestCase(unittest.TestCase):
     def test_successful_login(self):
-        with mock.patch('builtins.input', mock_input) as mock_method:
+        with mock.patch('builtins.input', mock_input):
             user = auth.login()
         credentials = {
             "patient": True,
