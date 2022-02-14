@@ -78,7 +78,7 @@ def create_user():
         "username": username,
         "password": password,
         "credentials": credentials,
-        "account_creation_time": datetime.datetime.utcnow()
+        "account_creation_time": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
     col.insert_one(user_info)
