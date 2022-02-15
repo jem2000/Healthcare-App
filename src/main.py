@@ -1,6 +1,7 @@
 import WConio2  # Only works on Windows!
 import authentication as auth
 import doctor_functions as doc
+import patient_functions as patient
 
 
 def app_startup():
@@ -17,21 +18,28 @@ def home(user):
             creds_string += ("  " + key.capitalize() + " -> Press " + key[0].capitalize() + " to access this role's "
                                                                                             "functions")
     print(creds_string)
-    valid = False
-    while not valid:
-        role = WConio2.getkey()
-        if role == "P":
-            print("Accessing patient menu")
-            valid = True
-        elif role == "D":
-            print("Accessing doctor menu")
-            doc.doctor_menu(user)
-            valid = True
-        elif role == "A":
-            print("Accessing admin menu")
-            valid = True
-        else:
-            print("Invalid selection, please try again")
+    print(" Alternatively, enter 'E' to exit")
+    exited = False
+    while not exited:
+        valid = False
+        while not valid:
+            role = WConio2.getkey()
+            if role == "P":
+                print("Accessing patient menu")
+                patient.patient_menu(user)
+                valid = True
+            elif role == "D":
+                print("Accessing doctor menu")
+                doc.doctor_menu(user)
+                valid = True
+            elif role == "A":
+                print("Accessing admin menu")
+                valid = True
+            elif role == "E":
+                print("Exited")
+                exited = True
+            else:
+                print("Invalid selection, please try again")
 
 
 if __name__ == '__main__':

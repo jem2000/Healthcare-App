@@ -3,7 +3,7 @@ import pymongo
 import datetime
 
 client = pymongo.MongoClient(
-    "")
+    "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
 
 db = client["Test1"]
 devices = db["Devices"]
@@ -11,10 +11,16 @@ users = db["Users"]
 
 
 def doctor_menu(user):
-    print("Press 1 to register new device")
+    print("Press 1 to register new device or B to go back")
     selection = WConio2.getkey()
     if selection == "1":
         register_new_device(user)
+        doctor_menu(user)
+    elif selection == "B":
+        return
+    else:
+        print("Invalid selection, please try again")
+        doctor_menu(user)
 
 
 def register_new_device(user):
@@ -33,19 +39,6 @@ def register_new_device(user):
                 valid = True
 
     device_user = input("Enter device user: ")
-    existing_name = users.find_one({'username': device_user})
-    if existing_name is None:
-        invalid = True
-        while invalid:
-            device_user = input("User not found, please try again or enter 'B' to go back: ")
-            if device_user == "B":
-                return False
-            existing_name = users.find_one({'username': device_user})
-            if existing_name is not None:
-                invalid = False
-    users.update_one(
-        {'username': device_user},
-        {'$set': {'devices': device_name}})
 
     device_MAC = input("Enter device MAC address: ")
     existing_MAC = devices.find_one({'MAC': device_MAC})
@@ -64,7 +57,22 @@ def register_new_device(user):
         "name": device_name,
         "user": device_user,
         "assignee": user.get('username'),
-        "MAC": device_MAC
+        "MAC": device_MAC,
+        "registration_date": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
     devices.insert_one(new_device)
+
+    existing_name = users.find_one({'username': device_user})
+    if existing_name is None:
+        invalid = True
+        while invalid:
+            device_user = input("User not found, please try again or enter 'B' to go back: ")
+            if device_user == "B":
+                return False
+            existing_name = users.find_one({'username': device_user})
+            if existing_name is not None:
+                invalid = False
+    users.update_one(
+        {'username': device_user},
+        {'$set': {'devices': device_name}})
