@@ -18,7 +18,7 @@ def home(user):
             creds_string += ("  " + key.capitalize() + " -> Press " + key[0].capitalize() + " to access this role's "
                                                                                             "functions")
     print(creds_string)
-    print(" Alternatively, enter 'E' to exit")
+    print("  Alternatively, enter 'E' to exit")
     exited = False
     while not exited:
         valid = False
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         if choice == "L":
             logged_in = auth.login()
         elif choice == "C":
-            logged_in = auth.create_user()
+            auth.create_user()
         else:
             print("Invalid selection")
 

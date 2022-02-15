@@ -63,16 +63,16 @@ def register_new_device(user):
 
     devices.insert_one(new_device)
 
-    existing_name = users.find_one({'username': device_user})
-    if existing_name is None:
-        invalid = True
-        while invalid:
-            device_user = input("User not found, please try again or enter 'B' to go back: ")
-            if device_user == "B":
-                return False
-            existing_name = users.find_one({'username': device_user})
-            if existing_name is not None:
-                invalid = False
-    users.update_one(
-        {'username': device_user},
-        {'$set': {'devices': device_name}})
+    # existing_name = users.find_one({'username': device_user})
+    # if existing_name is None:
+    #     invalid = True
+    #     while invalid:
+    #         device_user = input("User not found, please try again or enter 'B' to go back: ")
+    #         if device_user == "B":
+    #             return False
+    #         existing_name = users.find_one({'username': device_user})
+    #         if existing_name is not None:
+    #             invalid = False
+    # users.update_one(
+    #     {'username': device_user},
+    #     {'$set': {'devices': device_name}})

@@ -78,8 +78,8 @@ def create_user():
         "username": username,
         "password": password,
         "credentials": credentials,
-        "devices": None,
-        "health_records": None,
+        # "devices": None,
+        "health_records": [],
         "account_creation_time": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
