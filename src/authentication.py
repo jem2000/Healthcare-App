@@ -3,7 +3,7 @@ import pymongo
 import datetime
 
 client = pymongo.MongoClient(
-    "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
+    "mongodb+srv://Arktyk:Arktyk@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
 
 db = client["Test1"]
 users = db["Users"]
