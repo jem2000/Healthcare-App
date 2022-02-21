@@ -43,5 +43,25 @@ def find():
     return existing_name
 
 
+@app.route("/view-devices", methods=["GET"])
+def view():
+    target = request.get_json()
+    devices_list = []
+    for device in devices.find({"user": target['name']}, {"_id": 0, "name": 1}):
+        devices_list.append(device['name'])
+    return jsonify(devices_list)
+
+
+@app.route("/new-reading", methods=["POST"])
+def create_reading():
+    target = request.get_json()
+    username = target['name']
+    reading = target['health_reading']
+    users.update_one(
+        {'username': username},
+        {'$push': {'health_records': reading}})
+    return jsonify(str("Successfully stored  " + str(reading)))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

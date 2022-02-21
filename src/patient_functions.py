@@ -1,6 +1,7 @@
 import WConio2  # Only works on Windows!
 import pymongo
 import datetime
+import requests
 
 client = pymongo.MongoClient(
     "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
@@ -31,22 +32,24 @@ def patient_menu(user):
 
 def view_devices_list(user):
     username = user.get('username')
-    for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
-        print(device.get('name'))
+    # for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
+    device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
+    print(device_list)
 
 
 def add_new_health_record(user):
     username = user.get('username')
     count = 1
-    my_devices = []
+    # my_devices = []
+    device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
     for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
         print(count, ": ", device.get('name'))
-        my_devices.append(device.get('name'))
+        # device_list.append(device.get('name'))
         count += 1
     print("Select the number of the device used to create the readings")
     selection = WConio2.getkey()
-    if 0 <= int(selection) - 1 < len(my_devices):
-        device_name = my_devices[int(selection) - 1]
+    if 0 <= int(selection) - 1 < len(device_list):
+        device_name = device_list[int(selection) - 1]
     else:
         print("Invalid selection, please try again")
         return
@@ -68,8 +71,10 @@ def add_new_health_record(user):
         "height": height,
         "reading_date": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
-    users.update_one(
-        {'username': username},
-        {'$push': {'health_records': health_reading}})
+    requests.post('http://127.0.0.1:5000/new-reading', json={
+        'name': username,
+        'health_reading': health_reading
+    })
+
     print("Successfully uploaded health data")
 
