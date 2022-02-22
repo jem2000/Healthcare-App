@@ -31,7 +31,7 @@ users = db["Users"]
 def add_new_user():
     if request.method == 'POST':
         posted_data = request.get_json()
-        user = posted_data['name']
+        user = posted_data['user_info']
         users.insert_one(user)
         return jsonify(str("Successfully added  " + str(user)))
 
