@@ -1,13 +1,6 @@
 import WConio2  # Only works on Windows!
-import pymongo
 import datetime
 import requests
-
-client = pymongo.MongoClient(
-    "mongodb+srv://Arktyk:Arktyk@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
-
-db = client["Test1"]
-users = db["Users"]
 
 
 def login():
@@ -32,8 +25,7 @@ def login():
                 'password': password})
             if existing_account.status_code != 500:
                 incorrect_password = False
-    else:
-        return existing_account
+    return existing_account
 
 
 def create_user():

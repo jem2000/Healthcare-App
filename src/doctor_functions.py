@@ -1,14 +1,6 @@
 import WConio2  # Only works on Windows!
-import pymongo
 import datetime
 import requests
-
-client = pymongo.MongoClient(
-    "mongodb+srv://Arktyk:Arktyk@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
-
-db = client["Test1"]
-devices = db["Devices"]
-users = db["Users"]
 
 
 def doctor_menu(user):
