@@ -57,4 +57,4 @@ if __name__ == '__main__':
 
     current_user = logged_in
     print("Success")
-    home(current_user)
+    home(current_user.json())

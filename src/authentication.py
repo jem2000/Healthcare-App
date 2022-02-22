@@ -1,6 +1,7 @@
 import WConio2  # Only works on Windows!
 import pymongo
 import datetime
+import requests
 
 client = pymongo.MongoClient(
     "mongodb+srv://Arktyk:Arktyk@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")
@@ -12,20 +13,24 @@ users = db["Users"]
 def login():
     print("Logging in")
     username = input("Please enter your username: ")
-    existing_name = users.find_one({'username': username})
-    if existing_name is None:
+    existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
+    if existing_name.status_code == 500:
         print("Cannot find a user with that user name, try creating a new account")
         return False
     password = input("Please enter your password: ")
-    existing_account = users.find_one({'username': username, 'password': password})
-    if existing_account is None:
+    existing_account = requests.get('http://127.0.0.1:5000/authenticate', json={
+        'name': username,
+        'password': password})
+    if existing_account == 500:
         incorrect_password = True
         while incorrect_password:
             password = input("Incorrect password, please try again or enter 'B' to go back: ")
             if password == "B":
                 return False
-            existing_account = users.find_one({'username': username}, {'password': password})
-            if existing_account is not None:
+            existing_account = requests.get('http://127.0.0.1:5000/authenticate', json={
+                'name': username,
+                'password': password})
+            if existing_account != 500:
                 incorrect_password = False
     else:
         return existing_account

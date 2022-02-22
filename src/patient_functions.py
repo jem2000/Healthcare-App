@@ -32,7 +32,6 @@ def patient_menu(user):
 
 def view_devices_list(user):
     username = user.get('username')
-    # for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
     device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
     print(device_list)
 
@@ -40,11 +39,9 @@ def view_devices_list(user):
 def add_new_health_record(user):
     username = user.get('username')
     count = 1
-    # my_devices = []
     device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
     for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
         print(count, ": ", device.get('name'))
-        # device_list.append(device.get('name'))
         count += 1
     print("Select the number of the device used to create the readings")
     selection = WConio2.getkey()

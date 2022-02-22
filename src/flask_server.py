@@ -11,24 +11,54 @@ devices = db["Devices"]
 users = db["Users"]
 
 
-@app.route("/test-post", methods=["POST"])
-def setName():
+# @app.route("/test-post", methods=["POST"])
+# def setName():
+#     if request.method == 'POST':
+#         posted_data = request.get_json()
+#         data = posted_data['name']
+#         print("Successfully stored  " + str(data))
+#         return jsonify(str("Successfully stored  " + str(data)))
+#
+#
+# @app.route("/test-get", methods=["GET"])
+# def message():
+#     posted_data = request.get_json()
+#     name = posted_data['name']
+#     return jsonify(name)
+
+
+@app.route("/add-new-user", methods=["POST"])
+def add_new_user():
     if request.method == 'POST':
         posted_data = request.get_json()
-        data = posted_data['name']
-        print("Successfully stored  " + str(data))
-        return jsonify(str("Successfully stored  " + str(data)))
+        user = posted_data['name']
+        users.insert_one(user)
+        return jsonify(str("Successfully added  " + str(user)))
 
 
-@app.route("/test-get", methods=["GET"])
-def message():
-    posted_data = request.get_json()
-    name = posted_data['name']
-    return jsonify(name)
+@app.route("/find-user", methods=["GET"])
+def find_user():
+    target = request.get_json()
+    username = target['username']
+    existing_name = users.find_one({'username': username})
+    existing_name['_id'] = str(existing_name['_id'])
+    return existing_name
+
+
+@app.route("/authenticate", methods=["GET"])
+def find():
+    target = request.get_json()
+    username = target['name']
+    password = target['password']
+    existing_name = users.find_one(
+        {'username': username,
+         'password': password})
+    existing_name['_id'] = str(existing_name['_id'])
+    return existing_name
 
 
 @app.route("/add-new-device", methods=["POST"])
-def addNew():
+def add_new_device():
     if request.method == 'POST':
         posted_data = request.get_json()
         device = posted_data['device']
@@ -37,7 +67,7 @@ def addNew():
 
 
 @app.route("/find-device", methods=["GET"])
-def find():
+def find_device():
     target = request.get_json()
     existing_name = devices.find_one({'name': target['name']})
     return existing_name
