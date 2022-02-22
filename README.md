@@ -23,7 +23,7 @@ Ex. existing_account = requests.get('http://127.0.0.1:5000/authenticate', json={
 Ex. requests.post('http://127.0.0.1:5000/add-new-device', json=new_device)
 
 #### http://127.0.0.1:5000/find-device -> Check if a device name exists
-Ex. existing_name = requests.get('http://127.0.0.1:5000/find-device', json={'name': device_name})
+Ex. existing_name = requests.get('http://127.0.0.1:5000/find-device', json={'name': device_name})  
 Ex 2. existing_MAC = requests.get('http://127.0.0.1:5000/find-device', json={'MAC': device_MAC})
 
 #### http://127.0.0.1:5000/view-devices -> View all the devices under a registered user
