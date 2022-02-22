@@ -8,4 +8,4 @@
 ### My APIs
 
 #### http://127.0.0.1:5000/find-user -> Check if a username exists 
-##### Ex. existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
+Ex. existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
