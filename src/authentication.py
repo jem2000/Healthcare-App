@@ -1,48 +1,45 @@
 import WConio2  # Only works on Windows!
-import pymongo
 import datetime
-
-client = pymongo.MongoClient(
-    "")
-
-db = client["Test1"]
-col = db["Collection1"]
+import requests
 
 
 def login():
     print("Logging in")
     username = input("Please enter your username: ")
-    existing_name = col.find_one({'username': username})
-    if existing_name is None:
+    existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
+    if existing_name.status_code == 500:
         print("Cannot find a user with that user name, try creating a new account")
         return False
     password = input("Please enter your password: ")
-    existing_account = col.find_one({'username': username, 'password': password})
-    if existing_account is None:
+    existing_account = requests.get('http://127.0.0.1:5000/authenticate', json={
+        'name': username,
+        'password': password})
+    if existing_account.status_code == 500:
         incorrect_password = True
         while incorrect_password:
             password = input("Incorrect password, please try again or enter 'B' to go back: ")
             if password == "B":
                 return False
-            existing_account = col.find_one({'username': username}, {'password': password})
-            if existing_account is not None:
+            existing_account = requests.get('http://127.0.0.1:5000/authenticate', json={
+                'name': username,
+                'password': password})
+            if existing_account.status_code != 500:
                 incorrect_password = False
-    else:
-        return existing_account
+    return existing_account
 
 
 def create_user():
     print("Creating new user")
     username = input("Please enter your username: ")
-    existing_name = col.find_one({'username': username})
-    if existing_name is not None:
+    existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
+    if existing_name.status_code != 500:
         valid = False
         while not valid:
             username = input("Name already taken, try a new name or enter 'B' to go back: ")
-            existing_name = col.find_one({'username': username})
+            existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': username})
             if username == "B":
                 return False
-            if existing_name is None:
+            if existing_name.status_code == 500:
                 valid = True
 
     password = input("Please enter your password: ")
@@ -78,9 +75,11 @@ def create_user():
         "username": username,
         "password": password,
         "credentials": credentials,
+        # "devices": None,
+        "health_records": [],
         "account_creation_time": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
-    col.insert_one(user_info)
-
+    # users.insert_one(user_info)
+    requests.post('http://127.0.0.1:5000/add-new-user', json={'user_info': user_info})
     return True
