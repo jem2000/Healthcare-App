@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import pymongo
+import device_module
 
 app = Flask(__name__)
 
@@ -62,8 +63,12 @@ def add_new_device():
     if request.method == 'POST':
         posted_data = request.get_json()
         device = posted_data['device']
-        devices.insert_one(device)
-        return jsonify(str("Successfully stored  " + str(device)))
+        check = device_module.check_device_format(device)
+        if check:
+            devices.insert_one(device)
+            return jsonify(str("Successfully stored  " + str(device)))
+        else:
+            return False
 
 
 @app.route("/find-device", methods=["GET"])
