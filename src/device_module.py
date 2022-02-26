@@ -59,7 +59,7 @@ def check_device_format(new_device):
 
 
 def check_health_reading_format(new_reading):
-    if new_reading.keys() == health_reading_dict[new_reading["device_used"]].keys():
+    if new_reading.keys() == health_reading_dict[new_reading["device_type"]].keys():
         return True
     else:
         return False

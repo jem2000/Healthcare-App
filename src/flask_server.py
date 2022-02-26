@@ -74,7 +74,6 @@ def add_new_device():
 @app.route("/find-device", methods=["GET"])
 def find_device():
     target = request.get_json()
-    # existing_name = devices.find_one({'name': target['name']})
     existing_name = devices.find_one(target)
     existing_name['_id'] = str(existing_name['_id'])
     return existing_name
