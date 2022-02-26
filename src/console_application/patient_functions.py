@@ -32,7 +32,7 @@ def add_new_health_record(user):
     username = user.get('username')
     count = 1
     device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
-    for device in devices.find({"user": username}, {"_id": 0, "name": 1}):
+    for device in device_list:
         print(count, ": ", device.get('name'))
         count += 1
     print("Select the number of the device used to create the readings")

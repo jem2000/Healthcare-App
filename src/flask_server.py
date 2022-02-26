@@ -12,22 +12,6 @@ devices = db["Devices"]
 users = db["Users"]
 
 
-# @app.route("/test-post", methods=["POST"])
-# def setName():
-#     if request.method == 'POST':
-#         posted_data = request.get_json()
-#         data = posted_data['name']
-#         print("Successfully stored  " + str(data))
-#         return jsonify(str("Successfully stored  " + str(data)))
-#
-#
-# @app.route("/test-get", methods=["GET"])
-# def message():
-#     posted_data = request.get_json()
-#     name = posted_data['name']
-#     return jsonify(name)
-
-
 @app.route("/add-new-user", methods=["POST"])
 def add_new_user():
     if request.method == 'POST':
