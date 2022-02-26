@@ -3,7 +3,7 @@ import mock
 import pymongo
 from bson.objectid import ObjectId
 
-import authentication as auth
+from src.console_application import authentication as auth
 
 client = pymongo.MongoClient(
     "mongodb+srv://Github:Github@cluster0.pkk8t.mongodb.net/Test1?retryWrites=true&w=majority")

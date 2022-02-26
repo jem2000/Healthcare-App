@@ -1,6 +1,5 @@
 import WConio2  # Only works on Windows!
-import authentication as auth
-import doctor_functions as doc
+from src.console_application import authentication as auth, doctor_functions as doc
 import patient_functions as patient
 
 
