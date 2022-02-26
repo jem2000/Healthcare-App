@@ -2,6 +2,7 @@ WConio2
 mock
 bson
 pymongo
+pymongo[srv]
 datetime
 flask
 requests
