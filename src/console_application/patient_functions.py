@@ -9,6 +9,7 @@ def patient_menu(user):
     print("1: View list of devices ")
     print("2: Enter new health readings")
     print("3: Start new conversation")
+    print("4: View conversations")
     selection = WConio2.getkey()
     if selection == "1":
         view_devices_list(user)
@@ -20,6 +21,10 @@ def patient_menu(user):
     elif selection == "3":
         print("~-~-~-Starting new conversation-~-~-~")
         msg.start_new_convo(user)
+        patient_menu(user)
+    elif selection == "4":
+        print("~-~-~-Viewing conversations-~-~-~")
+        msg.view_conversations(user)
         patient_menu(user)
     elif selection == "B":
         return
@@ -37,7 +42,7 @@ def view_devices_list(user):
 def add_new_health_record(user):
     username = user.get('username')
     count = 1
-    device_list = requests.get('http://127.0.0.1:5000/view-devices', json={'name': username}).json()
+    device_list = requests.get('http://127.0.0.1:5000/view-conversations', json={'name': username}).json()
     for device in device_list:
         print(count, ": ", device.get('name'))
         count += 1

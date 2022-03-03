@@ -39,7 +39,29 @@ def start_new_convo(user):
 
     new_conversation = {
         "participants": participants,
+        "starter": participants[0],
+        "receiver": participants[1],
         "messages": [message_dict]
     }
 
     requests.post('http://127.0.0.1:5000/start-new-conversation', json=new_conversation)
+    print("Message sent!")
+
+
+def view_conversations(user):
+    username = user.get('username')
+    count = 1
+    conversation_list = requests.get('http://127.0.0.1:5000/view-conversations', json={'username': username}).json()
+    for name in conversation_list:
+        print(count, ": ", name)
+        count += 1
+    print("Select the number of the conversation you want to view")
+    selection = WConio2.getkey()
+    if 0 <= int(selection) - 1 < len(conversation_list):
+        recipient = conversation_list[int(selection) - 1]
+        participants = (username, recipient)
+        messages = requests.get('http://127.0.0.1:5000/view-messages', json={'participants': participants}).json()
+        print(messages)
+    else:
+        print("Invalid selection, please try again")
+        return

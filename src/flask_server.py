@@ -109,11 +109,23 @@ def start_new_conv():
 # @app.route("/send-message", methods=["POST"])
 # def send_message():
 #
+@app.route("/view-conversations", methods=["GET"])
+def view_conversations():
+    target = request.get_json()
+    conv_list = []
+    for conv in convs.find({"starter": target['username']}):
+        conv_list.append(conv['receiver'])
+    for conv in convs.find({"receiver": target['username']}):
+        conv_list.append(conv['starter'])
+    return jsonify(conv_list)
+
+
 @app.route("/view-messages", methods=["GET"])
 def view_messages():
     target = request.get_json()
     target['participants'] = msg.alphabetize(target['participants'][0], target['participants'][1])
-    conversation = convs.find(target)
+    conversation = convs.find_one(target)
+    temp = conversation["messages"]
     return jsonify(conversation["messages"])
 
 

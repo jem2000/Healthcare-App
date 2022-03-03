@@ -7,6 +7,8 @@ message_dict = {
 
 conversation_dict = {
     "participants": participants_tup,
+    "starter": "",
+    "receiver": "",
     "messages": [message_dict]
 }
 
@@ -33,6 +35,8 @@ if __name__ == '__main__':
     participants = alphabetize(tup[0], tup[1])
     my_dict = {
         "participants": participants,
+        "starter": "me",
+        "receiver": "other guy",
         "messages": [{"content": "hi", "timestamp": "July 4th"}]
     }
     check = check_conversation_format(my_dict)
