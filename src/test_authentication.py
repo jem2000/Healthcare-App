@@ -18,7 +18,7 @@
 # mock_input = mock.Mock()
 # mock_input.side_effect = [mock_username.return_value, mock_password.return_value]
 #
-# 
+#
 # class MyTestCase(unittest.TestCase):
 #     def test_successful_login(self):
 #         with mock.patch('builtins.input', mock_input):

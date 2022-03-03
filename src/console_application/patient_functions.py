@@ -1,12 +1,14 @@
 import WConio2  # Only works on Windows!
 import datetime
 import requests
+import message_functions as msg
 
 
 def patient_menu(user):
     print("~-~-~-Options-~-~-~")
     print("1: View list of devices ")
     print("2: Enter new health readings")
+    print("3: Start new conversation")
     selection = WConio2.getkey()
     if selection == "1":
         view_devices_list(user)
@@ -14,6 +16,10 @@ def patient_menu(user):
     elif selection == "2":
         print("~-~-~-Beginning new reading-~-~-~")
         add_new_health_record(user)
+        patient_menu(user)
+    elif selection == "3":
+        print("~-~-~-Starting new conversation-~-~-~")
+        msg.start_new_convo(user)
         patient_menu(user)
     elif selection == "B":
         return

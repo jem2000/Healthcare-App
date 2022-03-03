@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import pymongo
 import device_module
+import messaging_module as msg
 
 app = Flask(__name__)
 
@@ -10,7 +11,10 @@ client = pymongo.MongoClient(
 db = client["Test1"]
 devices = db["Devices"]
 users = db["Users"]
+convs = db["Conversations"]
 
+
+# AUTHENTICATION MODULE
 
 @app.route("/add-new-user", methods=["POST"])
 def add_new_user():
@@ -41,6 +45,8 @@ def find():
     existing_name['_id'] = str(existing_name['_id'])
     return existing_name
 
+
+# DEVICE MODULE
 
 @app.route("/add-new-device", methods=["POST"])
 def add_new_device():
@@ -77,11 +83,41 @@ def create_reading():
     target = request.get_json()
     username = target['name']
     reading = target['health_reading']
-    users.update_one(
-        {'username': username},
-        {'$push': {'health_records': reading}})
-    return jsonify(str("Successfully stored  " + str(reading)))
+    check = device_module.check_health_reading_format(reading)
+    if check:
+        users.update_one(
+            {'username': username},
+            {'$push': {'health_records': reading}})
+        return jsonify(str("Successfully stored  " + str(reading)))
+    else:
+        return False
 
+
+@app.route("/start-new-conversation", methods=["POST"])
+def start_new_conv():
+    target = request.get_json()
+    check = msg.check_conversation_format(target)
+    if check:
+        target['participants'] = msg.alphabetize(target["participants"][0], target["participants"][1])
+        convs.insert_one(target)
+        return jsonify(str("Successfully stored  " + str(target)))
+    else:
+        print(check)
+        return False
+
+
+# @app.route("/send-message", methods=["POST"])
+# def send_message():
+#
+@app.route("/view-messages", methods=["GET"])
+def view_messages():
+    target = request.get_json()
+    target['participants'] = msg.alphabetize(target['participants'][0], target['participants'][1])
+    conversation = convs.find(target)
+    return jsonify(conversation["messages"])
+
+
+# MESSAGING MODULE
 
 if __name__ == '__main__':
     app.run(debug=True)
