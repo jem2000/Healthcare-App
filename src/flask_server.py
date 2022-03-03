@@ -92,6 +92,8 @@ def create_reading():
     else:
         return False
 
+# MESSAGING MODULE
+
 
 @app.route("/start-new-conversation", methods=["POST"])
 def start_new_conv():
@@ -106,9 +108,6 @@ def start_new_conv():
         return False
 
 
-# @app.route("/send-message", methods=["POST"])
-# def send_message():
-#
 @app.route("/view-conversations", methods=["GET"])
 def view_conversations():
     target = request.get_json()
@@ -125,11 +124,22 @@ def view_messages():
     target = request.get_json()
     target['participants'] = msg.alphabetize(target['participants'][0], target['participants'][1])
     conversation = convs.find_one(target)
-    temp = conversation["messages"]
     return jsonify(conversation["messages"])
 
 
-# MESSAGING MODULE
+@app.route("/send-message", methods=["POST"])
+def send_message():
+    target = request.get_json()
+    check = msg.check_message_format(target)
+    if check:
+        target['participants'] = msg.alphabetize(target['participants'][0], target['participants'][1])
+        convs.update_one(
+            {'participants': target['participants']},
+            {'$push': {'messages': target['message']}})
+        return jsonify(str("Successfully stored  " + str(target['message'])))
+    else:
+        return False
+
 
 if __name__ == '__main__':
     app.run(debug=True)

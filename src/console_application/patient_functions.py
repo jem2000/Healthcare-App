@@ -10,6 +10,7 @@ def patient_menu(user):
     print("2: Enter new health readings")
     print("3: Start new conversation")
     print("4: View conversations")
+    print("5: Send new message")
     selection = WConio2.getkey()
     if selection == "1":
         view_devices_list(user)
@@ -25,6 +26,10 @@ def patient_menu(user):
     elif selection == "4":
         print("~-~-~-Viewing conversations-~-~-~")
         msg.view_conversations(user)
+        patient_menu(user)
+    elif selection == "5":
+        print("~-~-~-Sending new message-~-~-~")
+        msg.send_message(user, None)
         patient_menu(user)
     elif selection == "B":
         return

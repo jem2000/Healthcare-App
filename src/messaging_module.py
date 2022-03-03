@@ -2,7 +2,13 @@ participants_tup = ("", "")
 
 message_dict = {
     "content": "",
+    "sender": "",
     "timestamp": ""
+}
+
+message_wrapper = {
+    "participants": participants_tup,
+    "message": message_dict
 }
 
 conversation_dict = {
@@ -30,14 +36,21 @@ def check_conversation_format(new_conversation):
     return True
 
 
-if __name__ == '__main__':
-    tup = ("sender", "receiver")
-    participants = alphabetize(tup[0], tup[1])
-    my_dict = {
-        "participants": participants,
-        "starter": "me",
-        "receiver": "other guy",
-        "messages": [{"content": "hi", "timestamp": "July 4th"}]
-    }
-    check = check_conversation_format(my_dict)
-    print(check)
+def check_message_format(new_message):
+    if new_message.keys() != message_wrapper.keys():
+        return "Incorrect message format"
+    else:
+        return True
+
+#
+# if __name__ == '__main__':
+#     tup = ("sender", "receiver")
+#     participants = alphabetize(tup[0], tup[1])
+#     my_dict = {
+#         "participants": participants,
+#         "starter": "me",
+#         "receiver": "other guy",
+#         "messages": [{"content": "hi", "sender": "me", "timestamp": "July 4th"}]
+#     }
+#     check = check_conversation_format(my_dict)
+#     print(check)

@@ -9,7 +9,7 @@ def start_new_convo(user):
     if existing_name.status_code == 500:
         valid = False
         while not valid:
-            print("Cannot find a user with that user name, try creating a new account")
+            print("Cannot find a user with that user name")
             recipient_name = input("Enter the username of the person you want to start a conversation with or B to go back: ")
             existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': recipient_name})
             if recipient_name == "B":
@@ -62,6 +62,46 @@ def view_conversations(user):
         participants = (username, recipient)
         messages = requests.get('http://127.0.0.1:5000/view-messages', json={'participants': participants}).json()
         print(messages)
+        print("Would you like to send a message in this conversation? Y/N")
+        send_new = WConio2.getkey()
+        while send_new != 'Y' and send_new != 'N':
+            print("Try again, would you like to send a message in this conversation? Y/N? ")
+            additional = WConio2.getkey()
+        if send_new == 'Y':
+            send_message(user, recipient)
     else:
         print("Invalid selection, please try again")
         return
+
+
+def send_message(user, preselected):
+    username = user.get('username')
+    if preselected is None:
+        recipient = input("Enter the username of the recipient of this message: ")
+    else:
+        recipient = preselected
+    existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': recipient})
+    if existing_name.status_code == 500:
+        valid = False
+        while not valid:
+            print("Cannot find a user with that user name")
+            recipient = input("Enter the username of the person you want to message or B to go back: ")
+            existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': recipient})
+            if recipient == "B":
+                return False
+            if existing_name.status_code != 500:
+                valid = True
+    message_content = input("Enter the message you want to send: ")
+    participants = (username, recipient)
+    message_dict = {
+        "content": message_content,
+        "sender": username,
+        "timestamp": datetime.datetime.utcnow().strftime('%B %d %Y')
+    }
+    requests.post('http://127.0.0.1:5000/send-message', json={
+        "participants": participants,
+        "message": message_dict
+    })
+
+    print("Successfully sent message")
+

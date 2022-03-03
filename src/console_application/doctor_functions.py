@@ -1,13 +1,29 @@
 import WConio2  # Only works on Windows!
 import datetime
 import requests
+import message_functions as msg
 
 
 def doctor_menu(user):
     print("Press 1 to register new device or B to go back")
+    print("3: Start new conversation")
+    print("4: View conversations")
+    print("5: Send new message")
     selection = WConio2.getkey()
     if selection == "1":
         register_new_device(user)
+        doctor_menu(user)
+    elif selection == "3":
+        print("~-~-~-Starting new conversation-~-~-~")
+        msg.start_new_convo(user)
+        doctor_menu(user)
+    elif selection == "4":
+        print("~-~-~-Viewing conversations-~-~-~")
+        msg.view_conversations(user)
+        doctor_menu(user)
+    elif selection == "5":
+        print("~-~-~-Sending new message-~-~-~")
+        msg.send_message(user, None)
         doctor_menu(user)
     elif selection == "B":
         return
@@ -55,19 +71,4 @@ def register_new_device(user):
         }
     }
 
-    # devices.insert_one(new_device)
     requests.post('http://127.0.0.1:5000/add-new-device', json=new_device)
-
-    # existing_name = users.find_one({'username': device_user})
-    # if existing_name is None:
-    #     invalid = True
-    #     while invalid:
-    #         device_user = input("User not found, please try again or enter 'B' to go back: ")
-    #         if device_user == "B":
-    #             return False
-    #         existing_name = users.find_one({'username': device_user})
-    #         if existing_name is not None:
-    #             invalid = False
-    # users.update_one(
-    #     {'username': device_user},
-    #     {'$set': {'devices': device_name}})
