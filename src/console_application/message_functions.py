@@ -66,7 +66,7 @@ def view_conversations(user):
         send_new = WConio2.getkey()
         while send_new != 'Y' and send_new != 'N':
             print("Try again, would you like to send a message in this conversation? Y/N? ")
-            additional = WConio2.getkey()
+            send_new = WConio2.getkey()
         if send_new == 'Y':
             send_message(user, recipient)
     else:
