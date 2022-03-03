@@ -34,3 +34,8 @@ Ex. requests.post('http://127.0.0.1:5000/new-reading', json={
         'name': username,
         'health_reading': health_reading
     })
+    
+    
+Things to do:  
+1. Add data checking, not only structure checking  
+2. Implements class structure in modules  
