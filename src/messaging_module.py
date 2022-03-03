@@ -40,6 +40,8 @@ def check_message_format(new_message):
     if new_message.keys() != message_wrapper.keys():
         return "Incorrect message format"
     else:
+        if new_message.get('message').keys() != message_dict.keys():
+            return "Incorrect message format"
         return True
 
 #

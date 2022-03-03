@@ -4,6 +4,7 @@ import requests
 
 
 def start_new_convo(user):
+    username = user.get('username')
     recipient_name = input("Enter the username of the person you want to start a conversation with: ")
     existing_name = requests.get('http://127.0.0.1:5000/find-user', json={'username': recipient_name})
     if existing_name.status_code == 500:
@@ -17,14 +18,14 @@ def start_new_convo(user):
             if existing_name.status_code != 500:
                 valid = True
 
-    participants = (user.get('username'), recipient_name)
+    participants = (username, recipient_name)
     existing_conv = requests.get('http://127.0.0.1:5000/view-messages', json={'participants': participants})
 
     if existing_conv.status_code != 500 and existing_conv.status_code != 200:
         valid = False
         while not valid:
             recipient_name = input("This conversation already exists, select another user or press B to go back: ")
-            conv_participants = (user.get('username'), recipient_name)
+            conv_participants = (username, recipient_name)
             participants = frozenset(conv_participants)
             existing_conv = requests.get('http://127.0.0.1:5000/view-messages', json={'participants': participants})
             if recipient_name == "B":
@@ -34,6 +35,7 @@ def start_new_convo(user):
     message = input("Enter a message to begin the conversation: ")
     message_dict = {
         "content": message,
+        "sender": username,
         "timestamp": datetime.datetime.utcnow().strftime('%B %d %Y')
     }
 
