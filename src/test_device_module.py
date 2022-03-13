@@ -28,15 +28,24 @@ class MyTestCase(unittest.TestCase):
             "MAC": "1D234578",
             "registration_date": "yesterday"
         }
-        properly_formatted_reading = {
-            "device_type": "Scale",
-            "weight": "172",
-            "reading_date": "today"
+        properly_formatted_heart_rate = {
+            "device_type": "Heart Rate Monitor",
+            "heart_rate": "120",
+            "diastolic_bp": "120",
+            "systolic_bp": "80",
+            "reading_date": "February 15 2022"
         }
-        incorrectly_formatted_reading = {
+        incorrectly_formatted_heart_rate = {
             "device_type": "Heart Rate Monitor",
             "heartbeat": "",
             "reading_date": ""
+        }
+        invalid_number_heart_rate = {
+            "device_type": "Heart Rate Monitor",
+            "heart_rate": "-5",
+            "diastolic_bp": "120",
+            "systolic_bp": "80",
+            "reading_date": "February 15 2022"
         }
         incorrect_type_reading = {
             "device_type": "Heart Rate Monitor",
@@ -50,9 +59,11 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(dev.check_device_format(properly_formatted_device), True)
         self.assertEqual(dev.check_device_format(improperly_formatted_device), False)
         self.assertEqual(dev.check_device_format(unrecognized_type_device), True)
-        self.assertEqual(dev.check_health_reading_format(properly_formatted_reading), True)
-        self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_reading), False)
-        self.assertEqual(dev.check_health_reading_format(incorrect_type_reading), False)
+        self.assertEqual(dev.check_health_reading_format(properly_formatted_heart_rate), True)
+        self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_heart_rate),
+                         "Invalid health reading format")
+        self.assertEqual(dev.check_health_reading_format(invalid_number_heart_rate), "Invalid integer")
+        self.assertEqual(dev.check_health_reading_format(incorrect_type_reading), "Invalid health reading format")
 
 
 if __name__ == '__main__':
