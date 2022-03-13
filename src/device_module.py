@@ -51,14 +51,14 @@ def check_device_type(new_device):
     if new_device["type"] in device_types:
         return True
     else:
-        return False
+        return "Unrecognized device type"
 
 
 def check_device_format(new_device):
     if new_device.keys() == new_device_dict.keys():
         return True
     else:
-        return False
+        return "Incorrect device format"
 
 
 def check_health_reading_format(new_reading):
