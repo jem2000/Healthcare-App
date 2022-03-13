@@ -62,6 +62,51 @@ class MyTestCase(unittest.TestCase):
             "oxygen": "-99",
             "reading_date": "February 15 2022"
         }
+        properly_formatted_weight = {
+            "device_type": "Scale",
+            "weight": "101",
+            "reading_date": "February 15 2022"
+        }
+        incorrectly_formatted_weight = {
+            "device_type": "Scale",
+            "heartbeat": "",
+            "reading_date": ""
+        }
+        invalid_number_weight = {
+            "device_type": "Scale",
+            "weight": "-99",
+            "reading_date": "February 15 2022"
+        }
+        properly_formatted_glucose = {
+            "device_type": "Glucometer",
+            "glucose": "90",
+            "reading_date": "February 15 2022"
+        }
+        incorrectly_formatted_glucose = {
+            "device_type": "Glucometer",
+            "glue": "",
+            "reading_date": ""
+        }
+        invalid_number_glucose = {
+            "device_type": "Glucometer",
+            "glucose": "-120",
+            "reading_date": "February 15 2022"
+        }
+        properly_formatted_temperature = {
+            "device_type": "Thermometer",
+            "temperature": "94",
+            "reading_date": "February 15 2022"
+        }
+        incorrectly_formatted_temperature = {
+            "device_type": "Thermometer",
+            "temp": "86",
+            "reading_date": ""
+        }
+        invalid_number_temperature = {
+            "device_type": "Thermometer",
+            "temperature": "-2",
+            "reading_date": "February 15 2022"
+        }
         incorrect_type_reading = {
             "device_type": "Heart Rate Monitor",
             "glucose": "",
@@ -83,7 +128,22 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_oxygen),
                          "Invalid health reading format")
         self.assertEqual(dev.check_health_reading_format(invalid_number_oxygen), "Invalid integer")
+        self.assertEqual(dev.check_health_reading_format(properly_formatted_weight), True)
+        self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_weight),
+                         "Invalid health reading format")
+        self.assertEqual(dev.check_health_reading_format(invalid_number_weight), "Invalid integer")
+        self.assertEqual(dev.check_health_reading_format(properly_formatted_glucose), True)
+        self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_glucose),
+                         "Invalid health reading format")
+        self.assertEqual(dev.check_health_reading_format(invalid_number_glucose), "Invalid integer")
+        self.assertEqual(dev.check_health_reading_format(properly_formatted_temperature), True)
+        self.assertEqual(dev.check_health_reading_format(incorrectly_formatted_temperature),
+                         "Invalid health reading format")
+        self.assertEqual(dev.check_health_reading_format(invalid_number_temperature), "Invalid integer")
+
         self.assertEqual(dev.check_health_reading_format(incorrect_type_reading), "Invalid health reading format")
+        self.assertEqual(dev.check_date_format("May 11 2012"), True)
+        # self.assertEqual(dev.check_date_format("May 11, 2012"), False)
 
 
 if __name__ == '__main__':

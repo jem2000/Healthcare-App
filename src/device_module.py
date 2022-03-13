@@ -153,5 +153,6 @@ def check_temperature(new_reading):
 def check_date_format(date):
     try:
         datetime.datetime.strptime(date, '%B %d %Y')
+        return True
     except ValueError:
         raise ValueError("Incorrect date format")
