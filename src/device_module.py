@@ -56,6 +56,12 @@ def check_device_type(new_device):
 
 def check_device_format(new_device):
     if new_device.keys() == new_device_dict.keys():
+        if isinstance(new_device["type"], str) is False or isinstance(new_device["name"], str) is False or \
+                isinstance(new_device["user"], str) is False or isinstance(new_device["assignee"], str) is False or \
+                isinstance(new_device["MAC"], str) is False:
+            return "Values must be a string"
+        elif check_date_format(new_device["registration_date"]) is False:
+            return "Incorrect date format"
         return True
     else:
         return "Incorrect device format"

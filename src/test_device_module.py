@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
             "user": "Bucky",
             "assignee": "Mr Doctor",
             "MAC": "5F654363KJ87",
-            "registration_date": "today"
+            "registration_date": "July 4 2022"
         }
         improperly_formatted_device = {
             "type": "Heart Rate Monitor",
@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
             "username": "Tony",
             "assignee": "Tony",
             "MAC": "7Y745745H",
-            "registration_date": "tomorrow"
+            "registration_date": "May 4 2022"
         }
         unrecognized_type_device = {
             "type": "Mind control device",
@@ -26,7 +26,7 @@ class MyTestCase(unittest.TestCase):
             "user": "Mantis",
             "assignee": "Thanos",
             "MAC": "1D234578",
-            "registration_date": "yesterday"
+            "registration_date": "June 6 2021"
         }
         properly_formatted_heart_rate = {
             "device_type": "Heart Rate Monitor",
@@ -38,7 +38,7 @@ class MyTestCase(unittest.TestCase):
         incorrectly_formatted_heart_rate = {
             "device_type": "Heart Rate Monitor",
             "heartbeat": "",
-            "reading_date": ""
+            "reading_date": "February 14 2020"
         }
         invalid_number_heart_rate = {
             "device_type": "Heart Rate Monitor",
@@ -112,7 +112,6 @@ class MyTestCase(unittest.TestCase):
             "glucose": "",
             "reading_date": ""
         }
-
 
         self.assertEqual(dev.check_device_type(properly_formatted_device), True)
         self.assertEqual(dev.check_device_type(improperly_formatted_device), True)
