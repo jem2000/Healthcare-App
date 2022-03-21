@@ -148,13 +148,18 @@ def send_message():
         return False
 
 
+def task(n):
+    time.sleep(5)
+    return n
+
+
 @app.route("/stub", methods=["GET"])
 def index():
 
     if request.args.get("n"):
 
-        from flask_server import background_task
-        job = q.enqueue(background_task, request.args.get("n"))
+        from flask_server import task
+        job = q.enqueue(task, request.args.get("n"))
 
         return f"Task ({job.id}) added to queue"
 
@@ -165,17 +170,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-def background_task(n):
-    """ Function that returns len(n) and simulates a delay """
-
-    delay = 2
-
-    print("Task running")
-    print(f"Simulating a {delay} second delay")
-
-    time.sleep(delay)
-
-    print(len(n))
-    print("Task complete")
-
-    return len(n)
