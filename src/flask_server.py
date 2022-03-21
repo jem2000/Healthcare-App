@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, jsonify, request
 import pymongo
 import device_module
@@ -139,6 +141,12 @@ def send_message():
         return jsonify(str("Successfully stored  " + str(target['message'])))
     else:
         return False
+
+
+@app.route("/stub", methods=[""])
+def stub():
+    time.sleep(10)
+    return True
 
 
 if __name__ == '__main__':

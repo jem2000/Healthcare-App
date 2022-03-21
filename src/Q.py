@@ -42,6 +42,7 @@ if __name__ == '__main__':
     Q = Queue(max_processes=4)
     for i in range(4):
         Q.start_thread()
+
     for j in range(3):
         Q.add_to_q(square, 3)
     for j in range(3):
