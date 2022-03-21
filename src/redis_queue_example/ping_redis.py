@@ -18,6 +18,6 @@ setter = r.set('foo', 'bar')
 getter = r.get('foo')
 
 from ping_redis import task
-job = q.enqueue(task, 5)
+job = q.enqueue(background_task, 5)
 
 print(setter, getter)
