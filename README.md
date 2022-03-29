@@ -23,8 +23,8 @@ Ex. existing_name = requests.get('http://54.145.228.230/find-user', json={'usern
 
 #### http://54.145.228.230/authenticate -> Check if a username and password combination exists
 Ex. existing_account = requests.get('http://54.145.228.230/authenticate', json={  
-        'name': username,  
-        'password': password  
+        &nbsp; 'name': username,  
+        &nbsp; 'password': password  
     })
     
 ### Device Module
@@ -41,23 +41,23 @@ Ex. device_list = requests.get('http://54.145.228.230/view-devices', json={'name
 
 #### http://54.145.228.230/new-reading -> Add a new health reading to the current user
 Ex. requests.post('http://54.145.228.230/new-reading', json={  
-        'name': username,  
-        'health_reading': health_reading  
+        &nbsp; 'name': username,  
+        &nbsp; 'health_reading': health_reading  
     })
     
 ### Messaging Module
 
 #### http://54.145.228.230/start-new-conversation -> Starts a new conversation with a user you have never messaged before
 Ex. requests.post('http://54.145.228.230/start-new-conversation', json=new_conversation = {  
-        "participants": participants,  
-        "starter": participants[0],  
-        "receiver": participants[1],  
-        "messages": [message_dict]  
+        &nbsp; "participants": participants,  
+        &nbsp; "starter": participants[0],  
+        &nbsp; "receiver": participants[1],  
+        &nbsp; "messages": [message_dict]  
     })  
 Note: sample_message_dict = {  
-        "content": message_content,  
-        "sender": username,  
-        "timestamp": datetime.datetime.utcnow().strftime('%B %d %Y')  
+        &nbsp; "content": message_content,  
+        &nbsp; "sender": username,  
+        &nbsp; "timestamp": datetime.datetime.utcnow().strftime('%B %d %Y')  
     }
     
 #### http://54.145.228.230/view-conversations -> Returns a list of all the people you have conversations with
@@ -68,8 +68,8 @@ Ex. messages = requests.get('http://54.145.228.230/view-messages', json={'partic
 
 #### http://54.145.228.230/send-message
 Ex. requests.post('http://54.145.228.230/send-message', json={  
-        "participants": participants,  
-        "message": message_dict  
+        &nbsp; "participants": participants,  
+        &nbsp; "message": message_dict  
     })
     
     
