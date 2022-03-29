@@ -22,9 +22,9 @@ Ex. requests.post('http://54.145.228.230/add-new-user', json={'user_info': user_
 Ex. existing_name = requests.get('http://54.145.228.230/find-user', json={'username': username})
 
 #### http://54.145.228.230/authenticate -> Check if a username and password combination exists
-Ex. existing_account = requests.get('http://54.145.228.230/authenticate', json={
-        'name': username,
-        'password': password
+Ex. existing_account = requests.get('http://54.145.228.230/authenticate', json={  
+        'name': username,  
+        'password': password  
     })
     
 ### Device Module
@@ -40,9 +40,36 @@ Ex 2. existing_MAC = requests.get('http://54.145.228.230/find-device', json={'MA
 Ex. device_list = requests.get('http://54.145.228.230/view-devices', json={'name': username}).json()
 
 #### http://54.145.228.230/new-reading -> Add a new health reading to the current user
-Ex. requests.post('http://54.145.228.230/new-reading', json={
-        'name': username,
-        'health_reading': health_reading
+Ex. requests.post('http://54.145.228.230/new-reading', json={  
+        'name': username,  
+        'health_reading': health_reading  
+    })
+    
+### Messaging Module
+
+#### http://54.145.228.230/start-new-conversation -> Starts a new conversation with a user you have never messaged before
+Ex. requests.post('http://54.145.228.230/start-new-conversation', json=new_conversation = {  
+        "participants": participants,  
+        "starter": participants[0],  
+        "receiver": participants[1],  
+        "messages": [message_dict]  
+    })  
+Note: sample_message_dict = {  
+        "content": message_content,  
+        "sender": username,  
+        "timestamp": datetime.datetime.utcnow().strftime('%B %d %Y')  
+    }
+    
+#### http://54.145.228.230/view-conversations -> Returns a list of all the people you have conversations with
+Ex. conversation_list = requests.get('http://54.145.228.230/view-conversations', json={'username': username}).json()
+
+#### http://54.145.228.230/view-messages -> Returns a list of all the messages that have been sent to or received from a particular user
+Ex. messages = requests.get('http://54.145.228.230/view-messages', json={'participants': (username, recipient)}).json()
+
+#### http://54.145.228.230/send-message
+Ex. requests.post('http://54.145.228.230/send-message', json={  
+        "participants": participants,  
+        "message": message_dict  
     })
     
     
