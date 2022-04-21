@@ -71,8 +71,3 @@ Ex. requests.post('http://54.145.228.230/send-message', json={
         &nbsp; "participants": participants,  
         &nbsp; "message": message_dict  
     })
-    
-    
-Things to do:  
-1. Add data checking, not only structure checking  
-2. Implements class structure in modules  
